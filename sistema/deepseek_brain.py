@@ -46,7 +46,7 @@ async def chat_with_deepseek(user_message: str, chat_id: int = 0) -> str:
 
     try:
         response = await client.chat.completions.create(
-            model="deepseek-reasoner",
+            model="deepseek-chat",
             messages=chat_history[chat_id],
             temperature=0.3,
             max_tokens=8000
@@ -95,7 +95,7 @@ DADOS DO RADAR:
     
     try:
         response = await client.chat.completions.create(
-            model="deepseek-reasoner",
+            model="deepseek-chat",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3,
             max_tokens=4000
