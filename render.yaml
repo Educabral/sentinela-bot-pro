@@ -2,6 +2,7 @@ services:
   - type: web
     name: sentinela-bot-pro
     env: python
+    region: frankfurt
     buildCommand: pip install -r sistema/requirements.txt
     startCommand: cd sistema && python main.py
     plan: free
