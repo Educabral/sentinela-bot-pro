@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: sentinela-bot-pro
+    env: python
+    buildCommand: pip install -r sistema/requirements.txt
+    startCommand: cd sistema && python main.py
+    plan: free
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: DEEPSEEK_API_KEY
+        sync: false
