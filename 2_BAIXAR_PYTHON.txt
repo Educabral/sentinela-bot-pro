@@ -1,0 +1,21 @@
+==========================================================
+  PASSO 2 - BAIXAR E INSTALAR O PYTHON 3
+==========================================================
+
+Acesse o link abaixo para baixar o Python para Mac:
+
+  https://www.python.org/downloads/
+
+1. Abra o link acima no seu navegador
+
+2. Clique no botão amarelo "Download Python 3.x.x"
+
+3. Abra o arquivo baixado (.pkg) e siga a instalação
+   clicando em "Continuar" até finalizar
+
+4. Quando terminar, feche o instalador
+
+Pronto! Python instalado. Agora vá para o arquivo:
+  3_INSTALAR_BOT.sh
+
+==========================================================

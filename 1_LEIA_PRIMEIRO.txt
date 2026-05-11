@@ -1,0 +1,46 @@
+==========================================================
+   SENTINELA - INSTALAÇÃO
+   Siga os 4 passos abaixo. Não pule nenhum.
+==========================================================
+
+
+PASSO 1 — INSTALAR O PYTHON
+----------------------------------------------------------
+1. Abra o arquivo:  2_BAIXAR_PYTHON.txt
+2. Clique no link que está dentro dele
+3. Baixe e instale o Python (clique em Continuar até terminar)
+
+
+PASSO 2 — ABRIR O TERMINAL NA PASTA SENTINELA
+----------------------------------------------------------
+1. Clique com DOIS DEDOS na pasta SENTINELA
+2. Clique em "Novo Terminal na Pasta"
+
+   Não achou essa opção? Faça assim:
+   → Abra o Terminal (Command + Espaço, digite Terminal)
+   → Arraste a pasta SENTINELA para dentro do Terminal
+   → Pressione Enter
+
+
+PASSO 3 — INSTALAR O BOT (só uma vez)
+----------------------------------------------------------
+1. Com o Terminal aberto, arraste o arquivo 3_INSTALAR_BOT.sh
+   para dentro do Terminal
+2. Pressione Enter
+3. Aguarde a mensagem: "BOT INSTALADO COM SUCESSO!"
+
+
+PASSO 4 — LIGAR O BOT
+----------------------------------------------------------
+1. Arraste o arquivo 4_INICIAR.sh para dentro do Terminal
+2. Pressione Enter
+3. Quando aparecer "Bot online!" abra o Telegram e envie:
+   /start
+
+
+PARA DESLIGAR O BOT:   pressione CTRL + C no Terminal
+PARA LIGAR DE NOVO:    repita o Passo 2 e depois o Passo 4
+
+==========================================================
+   DICA: Não feche o Terminal enquanto usar o bot!
+==========================================================

@@ -1,0 +1,7 @@
+aiogram
+ccxt
+pandas
+numpy
+openai
+python-dotenv
+aiohttp

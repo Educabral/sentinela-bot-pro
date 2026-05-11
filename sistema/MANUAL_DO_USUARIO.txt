@@ -1,0 +1,92 @@
+==========================================================
+  SENTINELA - TRADING BOT PRO SMC
+  Seu Analista Institucional de Criptomoedas 24/7
+==========================================================
+
+BEM-VINDO!
+O SENTINELA é um bot de análise institucional para Telegram,
+especializado em Price Action, SMC e detecção automática de 
+oportunidades de Long/Short nas Top 100 moedas da Binance.
+
+==========================================================
+  INSTALAÇÃO - WINDOWS
+==========================================================
+
+1. Abra a pasta do bot
+2. Clique duas vezes em: instalar.bat
+   (Se o Python não estiver no seu PC, ele será baixado automaticamente)
+3. Aguarde a instalação (pode levar alguns minutos)
+4. Renomeie o arquivo '.env.exemplo' para '.env'
+5. Abra o '.env' com o Bloco de Notas e preencha suas chaves
+6. Pronto! Clique duas vezes em: iniciar.bat
+
+==========================================================
+  INSTALAÇÃO - macOS (MacBook)
+==========================================================
+
+1. Abra o Terminal (Cmd + Espaço > digite "Terminal" > Enter)
+2. Arraste a pasta do bot para o Terminal ou navegue com:
+      cd caminho/da/pasta/do/bot
+3. Execute o instalador:
+      ./instalar.sh
+   (Se der erro de permissão, execute antes: chmod +x instalar.sh)
+4. Aguarde a instalação
+5. Renomeie o arquivo '.env.exemplo' para '.env'
+6. Abra o '.env' com qualquer editor de texto e preencha suas chaves
+7. Para iniciar o bot, execute:
+      ./iniciar.sh
+
+* Se não tiver o Python 3 no Mac:
+  - Instale o Homebrew: https://brew.sh (cole o comando do site no Terminal)
+  - Depois execute: brew install python3
+
+==========================================================
+  CONFIGURAÇÃO DAS CHAVES DE API (.env)
+==========================================================
+
+Abra o arquivo '.env' e preencha:
+
+  TELEGRAM_BOT_TOKEN=seu_token_do_telegram_aqui
+  DEEPSEEK_API_KEY=sua_chave_deepseek_aqui
+
+COMO OBTER O TOKEN DO TELEGRAM:
+  1. Abra o Telegram e procure por: @BotFather
+  2. Envie: /newbot
+  3. Siga as instruções e copie o token gerado
+
+COMO OBTER A CHAVE DEEPSEEK:
+  1. Acesse: https://platform.deepseek.com
+  2. Crie uma conta gratuita
+  3. Vá em API Keys e crie uma nova chave
+  4. Copie e cole no arquivo .env
+
+==========================================================
+  COMO USAR O SENTINELA
+==========================================================
+
+Após iniciar o bot, abra o seu Telegram e:
+
+  /start          - Inicia o SENTINELA e apresentação
+  
+  Exemplos de mensagens:
+  "analise btc"   - Análise completa do Bitcoin
+  "analise sol"   - Análise da Solana
+  "analise eth e bnb" - Analisa múltiplos ativos
+  "lido"          - Analisa o LDO
+  "o que você acha do mercado hoje?" - Conversa livre
+
+O bot varrerá automaticamente as Top 100 moedas a cada 30 
+minutos e te avisará no Telegram quando detectar uma 
+oportunidade de Long ou Short interessante!
+
+==========================================================
+  AVISO IMPORTANTE
+==========================================================
+
+Este software é exclusivamente educacional. As análises
+geradas pelo SENTINELA são baseadas em dados matemáticos
+e não constituem recomendação financeira. Sempre faça sua
+própria análise antes de qualquer operação.
+
+Versão: 2.0 | Compatível com: Windows e macOS
+==========================================================
