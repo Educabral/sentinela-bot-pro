@@ -2,9 +2,9 @@ import ccxt
 import pandas as pd
 import numpy as np
 
-exchange = ccxt.bybit()
+exchange = ccxt.mexc()
 
-print("[SISTEMA] Conectando na Exchange (Bybit) e carregando todas as moedas...")
+print("[SISTEMA] Conectando na Exchange (MEXC) e carregando todas as moedas...")
 try:
     markets = exchange.load_markets()
     valid_symbols = [symbol.split('/')[0] for symbol in markets.keys() if symbol.endswith('/USDT')]
