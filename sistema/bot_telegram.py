@@ -5,6 +5,7 @@ from config import TELEGRAM_BOT_TOKEN
 from deepseek_brain import chat_with_deepseek, evaluate_opportunity
 from data_fetcher import check_price_drops, scan_for_opportunities_sync
 import time
+from datetime import datetime
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher()
@@ -12,15 +13,35 @@ dp = Dispatcher()
 ADMIN_CHAT_ID = None
 alert_cooldowns = {}
 
+# === CONTROLE DE VOLUME ===
+SCAN_INTERVAL = 7200        # 2 horas entre scans (era 30 min)
+COOLDOWN_PER_COIN = 28800   # 8 horas de cooldown por moeda (era 4h)
+MAX_ALERTS_PER_CYCLE = 5    # Maximo de alertas enviados por ciclo de scan
+MAX_ALERTS_PER_DAY = 15     # Maximo de alertas por dia
+daily_alert_count = 0
+last_reset_day = datetime.now().day
+
 async def monitor_market():
-    """Roda em background verificando o mercado a cada 30 minutos."""
-    global ADMIN_CHAT_ID
+    """Roda em background verificando o mercado a cada 2 horas."""
+    global ADMIN_CHAT_ID, daily_alert_count, last_reset_day
     while True:
-        await asyncio.sleep(1800) # 30 minutos
+        await asyncio.sleep(SCAN_INTERVAL)
         if ADMIN_CHAT_ID:
-            print("[RADAR] Iniciando varredura das Top 100 moedas...")
+            # Reset do contador diario a meia-noite
+            today = datetime.now().day
+            if today != last_reset_day:
+                daily_alert_count = 0
+                last_reset_day = today
+                print(f"[RADAR] Novo dia detectado. Contador de alertas resetado.")
             
-            # Checagem rapida de drops
+            # Verifica se ja atingiu o limite diario
+            if daily_alert_count >= MAX_ALERTS_PER_DAY:
+                print(f"[RADAR] Limite diario de {MAX_ALERTS_PER_DAY} alertas atingido. Proximo scan em {SCAN_INTERVAL//3600}h.")
+                continue
+            
+            print(f"[RADAR] Iniciando varredura... ({daily_alert_count}/{MAX_ALERTS_PER_DAY} alertas hoje)")
+            
+            # Checagem rapida de drops (apenas quedas bruscas, nao conta no limite)
             alerts = await check_price_drops()
             for alert in alerts:
                 try:
@@ -33,22 +54,38 @@ async def monitor_market():
             print(f"[RADAR] {len(ops)} setups matematicos encontrados. Avaliando com a IA...")
             
             current_time = time.time()
+            alerts_this_cycle = 0
+            
             for op in ops:
+                # Limite por ciclo
+                if alerts_this_cycle >= MAX_ALERTS_PER_CYCLE:
+                    print(f"[RADAR] Limite de {MAX_ALERTS_PER_CYCLE} alertas por ciclo atingido. Restante ignorado.")
+                    break
+                
+                # Limite diario
+                if daily_alert_count >= MAX_ALERTS_PER_DAY:
+                    print(f"[RADAR] Limite diario de {MAX_ALERTS_PER_DAY} alertas atingido.")
+                    break
+                
                 try:
                     symbol = op.split("ATIVO: ")[1].split("\n")[0].strip()
                     
-                    # Cooldown de 4 horas por moeda
-                    if symbol in alert_cooldowns and current_time - alert_cooldowns[symbol] < 14400:
+                    # Cooldown de 8 horas por moeda
+                    if symbol in alert_cooldowns and current_time - alert_cooldowns[symbol] < COOLDOWN_PER_COIN:
                         continue
                         
                     ai_verdict = await evaluate_opportunity(op)
                     if ai_verdict:
                         alert_cooldowns[symbol] = current_time
-                        msg = f"🎯 **RADAR SMC ATIVO** 🎯\n\n{ai_verdict}"
+                        daily_alert_count += 1
+                        alerts_this_cycle += 1
+                        msg = f"🎯 RADAR SMC ATIVO 🎯\n\n{ai_verdict}"
                         await bot.send_message(chat_id=ADMIN_CHAT_ID, text=msg)
-                        await asyncio.sleep(2) # Pausa para nao levar block do Telegram
+                        await asyncio.sleep(5) # Pausa de 5s entre alertas
                 except Exception as e:
                     print(f"[ERRO NO RADAR]: {e}")
+            
+            print(f"[RADAR] Ciclo finalizado. {alerts_this_cycle} alertas enviados. Total hoje: {daily_alert_count}/{MAX_ALERTS_PER_DAY}")
 
 @dp.message(CommandStart())
 async def send_welcome(message: types.Message):

@@ -308,19 +308,19 @@ async def check_price_drops():
         
     return alerts
 
-def get_top_100_symbols():
+def get_top_30_symbols():
     try:
         tickers = exchange.fetch_tickers()
         usdt_tickers = {k: v for k, v in tickers.items() if k.endswith('/USDT')}
         sorted_tickers = sorted(usdt_tickers.items(), key=lambda x: x[1].get('quoteVolume', 0) if x[1].get('quoteVolume') else 0, reverse=True)
-        return [x[0] for x in sorted_tickers[:100]]
+        return [x[0] for x in sorted_tickers[:30]]
     except Exception as e:
-        print(f"Erro ao buscar top 100: {e}")
+        print(f"Erro ao buscar top 30: {e}")
         return ["BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT"]
 
 def scan_for_opportunities_sync():
-    print("[SISTEMA] Iniciando varredura matematica das Top 100...")
-    top_symbols = get_top_100_symbols()
+    print("[SISTEMA] Iniciando varredura matematica das Top 30...")
+    top_symbols = get_top_30_symbols()
     opportunities = []
     
     for symbol in top_symbols:
@@ -355,7 +355,9 @@ def scan_for_opportunities_sync():
             bb_squeeze      = bb_width < df['BB_width'].quantile(0.15)  # squeeze forte
             has_ob = smc_data['ob_bullish'] or smc_data['ob_bearish']
 
-            if is_oversold or is_overbought or near_liq_low or near_liq_high or macd_cross_up or macd_cross_down or (bb_squeeze and has_ob):
+            # Exige pelo menos 2 condicoes simultaneas para reduzir falsos positivos
+            conditions = sum([is_oversold, is_overbought, near_liq_low, near_liq_high, macd_cross_up, macd_cross_down, (bb_squeeze and has_ob)])
+            if conditions >= 2:
                 trend_curto = "ALTA" if ema9  > ema21  else "BAIXA"
                 trend_longo = "ALTA" if price > ema200 else "BAIXA"
                 vwap_pos    = "ACIMA do VWAP" if price > vwap else "ABAIXO do VWAP"
